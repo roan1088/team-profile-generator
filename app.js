@@ -33,3 +33,41 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+// List of questions objects containing the prompt and which type of employee it is for
+const questionList = [
+    {prompt: {type: "input", message: "What is the {{ position }}'s name?", name: "name"},
+    for: "all"},
+    {prompt: {type: "input", message: "What is the {{ position }}'s email address?", name: "email"},
+    for: "all"},
+    {prompt: {type: "input", message: "What is the manager's office number?", name: "officeNumber"},
+    for: "manager"},
+    {prompt: {type: "input", message: "What is the engineer's github username?", name: "github"},
+    for: "engineer"},
+    {prompt: {type: "input", message: "What is the intern's school name?", name: "school"},
+    for: "intern"},
+    {prompt: {type: "list", message: "Which type of team member would you like to add?", name: "type", 
+    choices: [
+        {name: "Engineer", value: "engineer"},
+        {name: "Intern", value: "intern"},
+        {name: "I don't want to add any more", value: "none"}
+    ]},
+    for: "all"}
+];
+
+// Function to get question prompts for a position
+function getQuestionsFor(position) {
+    // Filter the questions for all employees or the given position
+    const questions = questionList.filter(function(question) {
+        return (question.for === "all" || question.for === position);
+    });
+    // Replace the placeholder with the position and return the prompts
+    const prompts = questions.map(function(question) {
+        question.prompt.message = question.prompt.message.replace("{{ position }}", position);
+        return question.prompt;
+    });
+
+    return prompts;
+}
+
+// console.log(getQuestionsFor("intern"));
