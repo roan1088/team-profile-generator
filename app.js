@@ -85,9 +85,33 @@ async function main() {
     // Keep adding members until the user is done
     while (position !== "none") {
         const response = await inquirer.prompt(getQuestionsFor(position));
-        console.log(response);
+        // console.log(response);
+        // Create an object for the position and add it to the employees list
+        switch(position) {
+            case "manager":
+                employeesList.push(new Manager(response.name, id, response.email, response.officeNumber));
+                break;
+            case "engineer":
+                employeesList.push(new Engineer(response.name, id, response.email, response.github));
+                break;
+            case "intern":
+                employeesList.push(new Intern(response.name, id, response.email, response.school));
+                break;
+        }
+        // Bump id up by 1
+        id++;
+        // Set new position to the type user selected
         position = response.type;
     }
+
+    // Once user is done adding all the members
+    // get HTML code
+    const renderedHTML = render(employeesList);
+    // Write the HTML code to a file
+    fs.writeFile("./team.html", renderedHTML, function(err) {
+        if (err) throw err;
+        console.log("Successfully created team.html");
+    });
 }
 
 // Code flow begin by calling main
