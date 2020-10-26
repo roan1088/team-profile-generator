@@ -72,3 +72,23 @@ function getQuestionsFor(position) {
 }
 
 // console.log(getQuestionsFor("intern"));
+
+// Main function
+async function main() {
+    // List of employees starting from empty
+    const employeesList = [];
+    // Id for employees starting from 1
+    let id = 1;
+    // Start with the manager position
+    let position = "manager";
+
+    // Keep adding members until the user is done
+    while (position !== "none") {
+        const response = await inquirer.prompt(getQuestionsFor(position));
+        console.log(response);
+        position = response.type;
+    }
+}
+
+// Code flow begin by calling main
+main();
