@@ -63,8 +63,9 @@ function getQuestionsFor(position) {
     });
     // Replace the placeholder with the position and return the prompts
     const prompts = questions.map(function(question) {
-        question.prompt.message = question.prompt.message.replace("{{ position }}", position);
-        return question.prompt;
+        const temp = {...question.prompt}
+        temp.message = temp.message.replace("{{ position }}", position);
+        return temp;
     });
 
     return prompts;
