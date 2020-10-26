@@ -107,10 +107,20 @@ async function main() {
     // Once user is done adding all the members
     // get HTML code
     const renderedHTML = render(employeesList);
-    // Write the HTML code to a file
-    fs.writeFile("./team.html", renderedHTML, function(err) {
-        if (err) throw err;
-        console.log("Successfully created team.html");
+    
+    // Check is the output folder exists
+    fs.access(OUTPUT_DIR, function (err) {
+        // If output folder doesnot exists
+        if (err) {
+            // Create the output folder
+            // using mkdirSync instead of mkdir to ensure folder is created before moving on
+            fs.mkdirSync(OUTPUT_DIR);
+        }
+        // Write the HTML code to the file
+        fs.writeFile(outputPath, renderedHTML, function(err) {
+            if (err) throw err;
+            console.log("Successfully created team.html");
+        });
     });
 }
 
